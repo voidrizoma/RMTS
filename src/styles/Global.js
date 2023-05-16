@@ -13,6 +13,9 @@ export const GlobalStyles = createGlobalStyle`
 body {
   font-family: monospace;
   overflow-x: hidden;
+  max-width: 1200px;
+  margin: 0 auto;
+  min-height:100vh;
 }
 
 .light {

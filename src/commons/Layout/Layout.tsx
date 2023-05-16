@@ -1,16 +1,21 @@
 import { useState, useEffect } from "react";
-import Header from "../Header/Header";
+import Header from "../Header/Header.tsx";
 import { GlobalStyles } from "../../styles/Global";
 import { ThemeProvider } from "styled-components";
-import Footer from "../Footer/Footer";
+import Footer from "../Footer/Footer.tsx";
 import { light, dark, blue, green, brown, pink } from "../../styles/Theme.styled";
 import { ThemeButton, ThemeContainer } from "../../styles/ThemeSwitch.styled";
 
+interface themeName {
+  name: String
+} 
+
 export default function Layout({ children }) {
-  const [selectedTheme, setSelectedTheme] = useState(light);
+
+  const [selectedTheme, setSelectedTheme] = useState<themeName> (light);
   
   const HandleThemeChange = (theme) => {
-    setSelectedTheme(theme);
+    setSelectedTheme(theme)
     localStorage.setItem("current-theme", JSON.stringify(theme));
   };
 

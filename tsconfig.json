@@ -22,7 +22,7 @@
     "next-env.d.ts",
     "**/*.ts",
     "**/*.tsx"
-  ],
+, "src/styles/Global.js", "src/styles/ThemeSwitch.styled.js", "src/styles/Theme.styled.js"  ],
   "exclude": [
     "node_modules"
   ]

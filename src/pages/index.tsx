@@ -1,14 +1,12 @@
 import { useState, useEffect } from "react";
 import Head from "next/head";
-import Link from "next/link";
 import Layout from "../Commons/Layout/Layout";
-import {
-  CardsContainer,
-  Card,
-  CardTitle,
-  CardBody,
-} from "../Components/Cards/Cards.styled";
+import CardComponent from "../components/Cards/Cards";
+import { Input, InputContent, Button } from "../styles/General";
 
+
+import { CardsContainer } from '../styles/General'
+import { dataApi } from "../interfaces/types";
 const defaultEndpoint = `https://rickandmortyapi.com/api/character/`;
 
 export async function getServerSideProps() {
@@ -21,9 +19,9 @@ export async function getServerSideProps() {
   };
 }
 
-export default function Home({ data }) {
+export default function Home({ data }): JSX.Element {
   const { info, results: defaultResults = [] } = data;
-  const [results, updateResults] = useState(defaultResults);
+  const [results, updateResults] = useState<dataApi>(defaultResults);
   const [page, updatePage] = useState({
     ...info,
     current: defaultEndpoint,
@@ -69,9 +67,9 @@ export default function Home({ data }) {
 
     const { currentTarget = {} } = e;
     const fields = Array.from(currentTarget?.elements);
-    const fieldQuery = fields.find((field) => field.name === "query");
+    const fieldQuery = fields.find((field) => field?.name === "query");
 
-    const value = fieldQuery.value || "";
+    const value = fieldQuery?.value || "";
     const endpoint = `https://rickandmortyapi.com/api/character/?name=${value}`;
 
     updatePage({ current: endpoint });
@@ -85,32 +83,25 @@ export default function Home({ data }) {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-        <Layout>
-          <main>
-            <form onSubmit={handleOnSubmitSearch}>
-              <input name="query" type="search" />
-              <button>Search</button>
-            </form>
-            <CardsContainer>
-              {results.map((result) => {
-                const { id, name, image } = result;
-                return (
-                  <Card key={id}>
-                    <Link href="/character/[id]" as={`/character/${id}`}>
-                      <CardTitle>{name}</CardTitle>
-                      <CardBody>
-                        <img src={image} alt={`${name} Thumbnail`} />
-                      </CardBody>
-                    </Link>
-                  </Card>
-                );
-              })}{" "}
-            </CardsContainer>
-            <p>
-              <button onClick={handleLoadMore}>Load More</button>
-            </p>
-          </main>
-        </Layout>
+      <Layout>
+        <main>
+          <InputContent onSubmit={handleOnSubmitSearch} >
+            <Input name="query" type="search" />
+            <Button>Search</Button>
+          </InputContent>
+          <CardsContainer>
+            {results.map((result) => {
+              const { id, name, image } = result;
+              return (
+                <CardComponent
+                  key={id}
+                  id={id} name={name} image={image} />
+              );
+            })}{" "}
+            <Button onClick={handleLoadMore}>Load More</Button>
+          </CardsContainer>
+        </main>
+      </Layout>
     </>
   );
 }

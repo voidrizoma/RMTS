@@ -9,4 +9,8 @@ export const Footer = styled.footer`
   a {
     color: ${({ theme }) => theme.colors.background};
   }
+
+  position: absolute;
+  bottom: 0;
+  width: 1200px;
 `;
